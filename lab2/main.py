@@ -9,28 +9,27 @@ x1,2 >= 0.
 import numpy as np
 from scipy.optimize import linprog
 
-z = [2, 3] 
+z = [-2, -3]
 
-coefficient_1 = [[-3, 2],
-                 [1, -4],  
-                 [1, -1]]
+coefficient_1 = [
+    [-3, 2],
+    [1, -4],
+    [1, -1]
+]
 
-coefficient_2 = [6, 2, 5] 
+coefficient_2 = [6, 2, 5]
 
-x = (0, None)
-y = (0, None)
+bounds = [(0, None), (0, None)]
 
-res = linprog(z, A_ub=coefficient_1, b_ub=coefficient_2,  bounds=(x, y), method='simplex', options={"disp": True})  
-print(res)
+res = linprog(
+    c=z,
+    A_ub=coefficient_1,
+    b_ub=coefficient_2,
+    bounds=bounds,
+    method='highs',
+    options={"disp": True}
+)
 
-"""
-Optimization terminated successfully.
-         Current function value: 0.000000    
-         Iterations: 5
- message: Optimization terminated successfully.
- success: True
-  status: 0
-     fun: 0.0
-       x: [ 0.000e+00  0.000e+00]
-     nit: 5
-"""
+print("Результат оптимізації:")
+print("Оптимальне значення цільової функції (максимум):", -res.fun)
+print("Оптимальні значення змінних x1 та x2:", res.x)
